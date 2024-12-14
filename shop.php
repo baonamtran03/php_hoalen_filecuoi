@@ -55,52 +55,103 @@
                 </div>
                 <div class="row">
                     <?php 
-                    // Kết nối đến cơ sở dữ liệu
-                    require_once('./config/database.php');
-
-                    // Lấy giá trị danh mục từ URL
-                    $danhmuc = isset($_GET['danhmuc']) ? $_GET['danhmuc'] : '';
-
-                    if (!empty($danhmuc)) {
-                        // Truy vấn sản phẩm thuộc danh mục được chọn
-                        $stmt = $conn->prepare("
-                            SELECT p.id, p.nameProduct, p.price, p.image 
-                            FROM product AS p
-                            JOIN danhmuc AS d ON p.danhmucchinh = d.lienket
-                            WHERE d.lienket = :danhmuc
-                            ORDER BY p.id DESC
-                        ");
-                        $stmt->bindParam(':danhmuc', $danhmuc, PDO::PARAM_STR);
-                        $stmt->execute();
-
-                        // Lấy danh sách sản phẩm
-                        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    } else {
-                        // Trường hợp không chọn danh mục, lấy tất cả sản phẩm
-                        $stmt = $conn->query("SELECT * FROM product ORDER BY id DESC");
-                        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    }
-
-                    // Hiển thị sản phẩm
-                    foreach ($products as $product) {
-                    ?>
+                    if($danhmuc!=""&&$danhmuc!=null){
+                                $query = $conn->query("SELECT * FROM `products`  WHERE `danhmuc` = '$danhmuc' ORDER BY `id` DESC");
+                                while($row1 = $query->fetch(PDO::FETCH_ASSOC)){ 
+                                ?>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<?php echo htmlspecialchars($product['image'])?>">
+                            <div class="product__item__pic set-bg" data-setbg="<?php echo $row1['image']?>">
+                                <!-- <ul class="product__hover">
+                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                    <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
+                                    </li>
+                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                </ul> -->
                             </div>
                             <div class="product__item__text">
-                                <h6><?php echo htmlspecialchars($product['nameProduct'])?></h6>
-                                <h5><?php echo number_format($product['price'])?> VNĐ</h5>
+                                <h6><?php echo $row1['nameProduct']?></h6>
                                 <form method="post" action="dao/addCart.php">
-                                    <input type="hidden" name="idsp" value="<?php echo htmlspecialchars($product['id'])?>">
+                                    <input type="hidden" name="idsp" value="<?php echo ''.$row1["id"]?>">
                                     <input type="hidden" value="1" name="quanty">
-                                    <a><button type="submit" name="addCart" class="add-cart">+ Thêm vào giỏ hàng</button></a>
+                                    <a><button type="submit" name="addCart" class="add-cart">+ Thêm vào giỏ
+                                            hàng</button>
+                                    </a>
                                 </form>
-                                <a href="<?php echo $site_domain?>/shop-details.php?id=<?php echo htmlspecialchars($product['id'])?>" style="color:blue;">Xem chi tiết</a>
-                            </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h5><?php echo number_format($row1['price'])?> VNĐ</h5>
+                                <div class="product__color__select">
+                                    <label for="pc-4">
+                                        <input type="radio" id="pc-4">
+                                    </label>
+                                    <label class="active black" for="pc-5">
+                                        <input type="radio" id="pc-5">
+                                    </label>
+                                    <label class="grey" for="pc-6">
+                                        <input type="radio" id="pc-6">
+                                    </label>
+                                </div>
+                            </div><a href="<?php echo $site_domain?>/shop-details.php?id=<?php echo $row1['id']?>"
+                                style="color:blue;">Xem chi
+                                tiết</a>
                         </div>
                     </div>
-                    <?php } ?>
+                    <?php }
+                    }else{
+                        
+                         $query = $conn->query("SELECT * FROM `products`");
+                                while($row1 = $query->fetch(PDO::FETCH_ASSOC)){ 
+                                ?>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="<?php echo $row1['image']?>">
+                                <!-- <ul class="product__hover">
+                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                    <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
+                                    </li>
+                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                </ul> -->
+                            </div>
+                            <div class="product__item__text">
+                                <h6><?php echo $row1['nameProduct']?></h6>
+                                <form method="post" action="dao/addCart.php">
+                                    <input type="hidden" name="idsp" value="<?php echo ''.$row1["id"]?>">
+                                    <input type="hidden" value="1" name="quanty">
+                                    <a><button type="submit" name="addCart" class="add-cart">+ Thêm vào giỏ
+                                            hàng</button>
+                                    </a>
+                                </form>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h5><?php echo number_format($row1['price'])?> VNĐ</h5>
+                                <!-- <div class="product__color__select">
+                                    <label for="pc-4">
+                                        <input type="radio" id="pc-4">
+                                    </label>
+                                    <label class="active black" for="pc-5">
+                                        <input type="radio" id="pc-5">
+                                    </label>
+                                    <label class="grey" for="pc-6">
+                                        <input type="radio" id="pc-6">
+                                    </label>
+                                </div> -->
+                            </div><a href="<?php echo $site_domain?>/shop-details.php?id=<?php echo $row1['id']?>"
+                                style="color:blue;">Xem chi
+                                tiết</a>
+                        </div>
+                    </div>
+                    <?php }}?>
                 </div>
 
             </div>
