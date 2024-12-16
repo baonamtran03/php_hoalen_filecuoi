@@ -1,7 +1,11 @@
- <?php
-  require_once('../config/database.php');
+<?php
+  require_once('./config/database.php');
+    $email = $_SESSION["user"];
+    $sqlu = "SELECT * FROM user WHERE email = '$email'";
+    //get thông tin của người dùng hiện tại
+  $result = $conn->query($sqlu);
+  $users = $result->fetch(PDO::FETCH_ASSOC);
 
-  $email = $_SESSION["user"];
   $magiamgia = $_GET['magiamgia'];
   $magiam = $_GET['magiam'];
   $users_name = $_POST["kh_ten"];
@@ -52,28 +56,15 @@
                                         $delete = "DELETE FROM `cart` WHERE `id` = '$idS'";
                                         //xóa sản phẩm đó khỏi giỏ hàng
                                         $conn->query( $delete);
-                                        $token = "6643393109:AAFECfPHV3eeXwNFbYmrOq-CMTu_SGT5n_4";
-                                        $chat_id= "-4004632539";
-                                        $my_text = $users_name." Vừa Mua 1 Sản Phẩm Có Giá Là : ".$tongtienS." VNĐ, Với Mã Đơn Hàng : ".$madon;
-                                        $curl = curl_init();
-                                        curl_setopt_array($curl, array(
-                                        CURLOPT_URL => 'https://api.telegram.org/bot'.$token.'/sendMessage?chat_id='.$chat_id.'&text='.urlencode($my_text),
-                                        CURLOPT_RETURNTRANSFER => true,
-                                        CURLOPT_ENCODING => '',
-                                        CURLOPT_MAXREDIRS => 10,
-                                        CURLOPT_TIMEOUT => 10,
-                                        CURLOPT_FOLLOWLOCATION => true,
-                                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                        CURLOPT_CUSTOMREQUEST => 'POST',
-                                      ));
-                                        $response = curl_exec($curl);
-                                        curl_close($curl);
-                                        
-                                        
                                         
                                     } else {
                                         echo '<script>alert("Bạn đã đặt hàng thất bại!")</script>';
                                         echo "<script>history.back();</script>";
+                                    }
+                                        // Giảm số lượng mã giảm giá
+                                    if (!empty($magiamgia)) {
+                                            $update_magiamgia = "UPDATE magiamgia SET soluong = soluong - 1 WHERE magiam = '$magiamgia'";
+                                    $conn->query($update_magiamgia);
                                     }
 
                                 }

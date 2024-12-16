@@ -2,8 +2,8 @@
   require_once('./config/database.php');
   include_once('./components/header.php');
   include_once('./components/nav.php');
-   $email = $_SESSION["user"];
-  $magiamgia = $_GET["magiamgia"];
+    $email = $_SESSION["user"];
+   $magiamgia = $_GET["magiamgia"];
 ?>
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
@@ -69,7 +69,7 @@
 
                         <div class="checkout__input">
                             <p>Ghi chú đặt hàng</p>
-                            <input type="text" placeholder="Ghi chú đặt hàng" name="note" required>
+                            <input type="text" placeholder="Ghi chú đặt hàng" name="note" >
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">

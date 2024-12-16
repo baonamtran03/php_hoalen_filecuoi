@@ -1,7 +1,13 @@
 <?php
   require_once('../config/database.php');
-
-  $email = $_SESSION["user"];
+  
+$email = $_SESSION["user"];
+$current_date = date('Y-m-d');
+// Truy vấn để lấy mã giảm giá với điều kiện số lượng > 0 và ngày bắt đầu <= ngày hiện tại
+$sqlu = "SELECT magiam FROM magiamgia WHERE soluong > 0 AND batdau <= '$current_date' LIMIT 1";
+$result = $conn->query( $sqlu);
+$magiamgia = $result->fetch(PDO::FETCH_ASSOC);
+$magiamgia_value = $magiamgia['magiam'] ?? ''; 
   
   if(isset($_POST["addCart"])){
        $idsp = $_POST["idsp"];
@@ -26,7 +32,7 @@
             echo '<script>alert("Đơn hàng đã có trong giỏ hàng!\nĐã cập nhật lại số lượng")</script>';
             $update = "UPDATE `cart` SET `soluong` = `soluong`+$soluong,`tongtien`=`tongtien`+(`price`*$soluong) WHERE `email` = '$email' AND `name` = '$name'";
             if($conn->query( $update)){
-                echo "<script>window.location = '$site_domain/shopping-cart.php?magiamgia='</script>";
+              echo "<script>window.location = '$site_domain/shopping-cart.php?magiamgia=" . urlencode($magiamgia_value) . "'</script>";
 }
 
 }else{
@@ -38,9 +44,7 @@ if ($conn->query( $sql)) {
 echo '<script>
 alert("Đã thêm vào giỏ hàng thành công!")
 </script>';
-echo "<script>
-window.location = '$site_domain/shopping-cart.php?magiamgia='
-</script>";
+echo "<script>window.location = '$site_domain/shopping-cart.php?magiamgia=" . urlencode($magiamgia_value) . "'</script>";
 }
 
 }

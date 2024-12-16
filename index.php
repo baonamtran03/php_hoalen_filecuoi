@@ -368,7 +368,7 @@ $sql = "INSERT IGNORE INTO user (name,email,password,phanquyen) VALUES ('$namep'
 
 if(isset($_POST['login']))
 {
-    $emailq      = $_POST['email'];
+    $emailq = $_POST['email'];
     $passs  = $_POST['password'];
 // Kiểm tra username hoặc email trong CSDL có trùng không
 if($emailq!="" && $passs!=""){

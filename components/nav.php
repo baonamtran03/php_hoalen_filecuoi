@@ -26,8 +26,8 @@
             <div class="offcanvas__links"><?php
                     if(!isset($_SESSION["user"])){
                   ?>
-                <a href="#">Đăng nhập</a><?php }?>
-                <a href="#">FAQs</a> <?php if($users_quyen == 99){?><a href="<?php echo $site_domain?>/admin">Trang
+                <a href="/index.php">Đăng nhập</a><?php }?>
+                <a href="/faq.php">FAQs</a> <?php if($users_quyen == 99){?><a href="<?php echo $site_domain?>/admin">Trang
                     Quản
                     Trị</a>
                 <?php }?><?php if(isset($_SESSION["user"])){
@@ -60,9 +60,9 @@
                                 <?php
                     if(!isset($_SESSION["user"])){
                   ?>
-                                <a href="#">Đăng nhập</a>
+                                <a href="/index.php">Đăng nhập</a>
                                 <?php }?>
-                                <a href="#">FAQs</a>
+                                <a href="/faq.php">FAQs</a>
                                 <?php if($users_quyen == 99){?>
                                 <a href="<?php echo $site_domain?>/admin">Trang Quản Trị</a>
                                 <?php }?>
