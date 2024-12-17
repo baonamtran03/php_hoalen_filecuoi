@@ -21,9 +21,9 @@
     <div class="container">
         <div class="row">
             <?php 
-                                $query = $conn->query("SELECT * FROM `tintuc`");
-                                while($row1 = $query->fetch(PDO::FETCH_ASSOC)){ 
-                                ?>
+                $query = $conn->query("SELECT * FROM `tintuc`");
+                while($row1 = $query->fetch(PDO::FETCH_ASSOC)){ 
+            ?>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="blog__item">
                     <div class="blog__item__pic set-bg" data-setbg="<?php echo $row1['image']?>"></div>
