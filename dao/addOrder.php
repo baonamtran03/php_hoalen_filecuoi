@@ -1,5 +1,5 @@
 <?php
-  require_once('./config/database.php');
+  require_once('../config/database.php');
     $email = $_SESSION["user"];
     $sqlu = "SELECT * FROM user WHERE email = '$email'";
     //get thông tin của người dùng hiện tại

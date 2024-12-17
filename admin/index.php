@@ -1,10 +1,27 @@
 <?php
-  require_once('../config/database.php');
-    if(isset($_SESSION["email"])){
-      //kiểm tra nếu đã login thiof chuển vào trang home
-         echo "<script>
+require_once('../config/database.php');
+if (isset($_SESSION["email"])) {
+    //kiểm tra nếu đã login thiof chuển vào trang home
+    echo "<script>
     location.href = '$site_domain/admin/home.php';
 </script>";
+}
+if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
+    $sqlu = "SELECT * FROM user WHERE email = '$email'";
+    //get thông tin của người dùng hiện tại
+    $result = $conn->query($sqlu);
+    $users = $result->fetch(PDO::FETCH_ASSOC);
+
+    $users_quyen = $users['phanquyen'];
+
+    if ($users_quyen != 99) {
+        header("Location: /");
+    }
+} else if ($_SESSION['email'] == null) {
+    header("Location: $site_domain/admin");
+} else {
+    header("Location: /");
 }
 ?>
 <html lang="en">
@@ -78,24 +95,24 @@
 
 </html>
 <?php
-        if(isset($_POST['submit'])){
-          //xử lí login kiểm tra tk mk có đúng không ,nếu đúng thì chuển vào trang chủ
-            $password  = $_POST['password'];
-            $email      = $_POST['email'];
-            $query = $conn->query("SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password' AND `phanquyen` = '99'");
-            $count= $query->rowCount();
-            if ($count == 1) {
-                 echo("<script>console.log('PHP: " . $email . "');</script>");
-                $_SESSION["email"] = $email;
-                //echo $_SESSION['email'];
-               $message = "Đăng nhập thành công!!";
-                echo "<script type='text/javascript'>alert('$message');</script>";
-                header("location: $site_domain/admin/home.php");
-}else{
-$message = "Sai tài khoản hoặc mật khẩu rồi!!!";
-echo "<script type='text/javascript'>
+if (isset($_POST['submit'])) {
+    //xử lí login kiểm tra tk mk có đúng không ,nếu đúng thì chuển vào trang chủ
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $query = $conn->query("SELECT * FROM `user` WHERE `email` = '$email' AND `password` = '$password' AND `phanquyen` = '99'");
+    $count = $query->rowCount();
+    if ($count == 1) {
+        echo ("<script>console.log('PHP: " . $email . "');</script>");
+        $_SESSION["email"] = $email;
+        //echo $_SESSION['email'];
+        $message = "Đăng nhập thành công!!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+        header("location: $site_domain/admin/home.php");
+    } else {
+        $message = "Sai tài khoản hoặc mật khẩu rồi!!!";
+        echo "<script type='text/javascript'>
 alert('$message');
 </script>";
-}
+    }
 }
 ?>

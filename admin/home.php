@@ -1,7 +1,24 @@
 <?php
-  require_once('../config/database.php');
-    if($_SESSION['email']==null){
-        header("Location: $site_domain/admin");
+require_once('../config/database.php');
+if ($_SESSION['email'] == null) {
+    header("Location: $site_domain/admin");
+}
+if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
+    $sqlu = "SELECT * FROM user WHERE email = '$email'";
+    //get thông tin của người dùng hiện tại
+    $result = $conn->query($sqlu);
+    $users = $result->fetch(PDO::FETCH_ASSOC);
+
+    $users_quyen = $users['phanquyen'];
+
+    if ($users_quyen != 99) {
+        header("Location: /");
+    }
+} else if ($_SESSION['email'] == null) {
+    header("Location: $site_domain/admin");
+} else {
+    header("Location: /");
 }
 ?>
 <html lang="en">
@@ -38,7 +55,7 @@
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link active" href="<?php echo $site_domain?>/home.php">
+                        <a class="nav-link active" href="<?php echo $site_domain ?>/home.php">
                             Trang Chủ
                         </a>
                     </li>
@@ -61,22 +78,22 @@
                     <li class="nav-item">
                         <div class="d-flex sidebar-profile">
                             <div class="sidebar-profile-image">
-                                <img src="<?php echo $site_logo;?>" alt="image">
+                                <img src="<?php echo $site_logo; ?>" alt="image">
                                 <span class="sidebar-status-indicator"></span>
                             </div>
                             <div class="sidebar-profile-name">
                                 <p class="sidebar-name">
-                                    <?php echo $site_email;?>
+                                    <?php echo $site_email; ?>
                                 </p>
                                 <p class="sidebar-designation">
                                     Quản trị viên
                                 </p>
                             </div>
                         </div>
-                        
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $site_domain?>/admin/home.php">
+                        <a class="nav-link" href="<?php echo $site_domain ?>/admin/home.php">
                             <i class="typcn typcn-device-desktop menu-icon"></i>
                             <span class="menu-title">Trang chủ <span
                                     class="badge badge-primary ml-3">Chính</span></span>
@@ -95,10 +112,10 @@
                                 <!--<li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>-->
                                 <!--<li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>-->
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/post/addProduct.php">Đăng
+                                        href="<?php echo $site_domain ?>/admin/pages/post/addProduct.php">Đăng
                                         Sản Phẩm</a></li>
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/post/listProduct.php">Danh
+                                        href="<?php echo $site_domain ?>/admin/pages/post/listProduct.php">Danh
                                         Sách Sản Phẩm</a></li>
                             </ul>
                         </div>
@@ -115,7 +132,7 @@
                             <ul class="nav flex-column sub-menu">
 
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/donhang/dsdonhang.php">Danh
+                                        href="<?php echo $site_domain ?>/admin/pages/donhang/dsdonhang.php">Danh
                                         Sách Đơn Hàng</a></li>
                             </ul>
                         </div>
@@ -133,20 +150,20 @@
                                 <!--<li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>-->
                                 <!--<li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>-->
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/settings/setting.php">Cài
+                                        href="<?php echo $site_domain ?>/admin/pages/settings/setting.php">Cài
                                         Đặt Giao Diện</a></li>
 
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/settings/listbannerm.php">Danh Sách
+                                        href="<?php echo $site_domain ?>/admin/pages/settings/listbannerm.php">Danh Sách
                                         Banner</a></li>
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/binhluan/dsbinhluan.php">Danh Sách
+                                        href="<?php echo $site_domain ?>/admin/pages/binhluan/dsbinhluan.php">Danh Sách
                                         Bình Luận</a></li>
 
                             </ul>
                         </div>
                     </li>
-                   
+
                     <!--<li class="nav-item">-->
                     <!--  <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">-->
                     <!--    <i class="typcn typcn-film menu-icon"></i>-->
@@ -170,15 +187,15 @@
                             <ul class="nav flex-column sub-menu">
 
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/danhmuc/danhmuc.php">Thêm
+                                        href="<?php echo $site_domain ?>/admin/pages/danhmuc/danhmuc.php">Thêm
                                         Danh Mục</a></li>
                                 <li class="nav-item"> <a class="nav-link"
-                                        href="<?php echo $site_domain?>/admin/pages/danhmuc/dsdanhmuc.php">Danh
+                                        href="<?php echo $site_domain ?>/admin/pages/danhmuc/dsdanhmuc.php">Danh
                                         Sách Danh Mục</a></li>
                             </ul>
                         </div>
                     </li>
-                    
+
 
                 </ul>
 
@@ -193,20 +210,20 @@
                             title="Trao đổi người theo dõi profile để kiếm tiền.">
                             <div class="box-body text-center">
                                 <a>Sản Phẩm </a><br>
-                                <h3><?php 
-						
-                                $qty= 0;
-                                	$query1 = $conn->query("SELECT * FROM `products`");
-                                while($row11 = $query1->fetch(PDO::FETCH_ASSOC)){
-                                  //tính số sản phẩm hiện có
-                                            $qty += 1;
-                                	    }
-                                
+                                <h3><?php
+
+                                $qty = 0;
+                                $query1 = $conn->query("SELECT * FROM `products`");
+                                while ($row11 = $query1->fetch(PDO::FETCH_ASSOC)) {
+                                    //tính số sản phẩm hiện có
+                                    $qty += 1;
+                                }
+
                                 echo $qty;
                                 ?></h3>
                                 <hr>
                                 <a rel="nofollow"
-                                    href="<?php echo $site_domain?>/admin/pages/post/listProduct.php"><button
+                                    href="<?php echo $site_domain ?>/admin/pages/post/listProduct.php"><button
                                         class="btn btn-danger btn-block">Xem Ngay</button></a>
                             </div>
                         </div>
@@ -219,20 +236,20 @@
                             title="Trao đổi người theo dõi profile để kiếm tiền.">
                             <div class="box-body text-center">
                                 <a>Đơn Hàng </a><br>
-                                <h3><?php 
-						
-                                $qty= 0;
-                                	$query1 = $conn->query("SELECT * FROM `donhang`");
-                                while($row11 = $query1->fetch(PDO::FETCH_ASSOC)){
-                                            $qty += 1;
-                                            //tính số đơn hàng hiện có
-                                	    }
-                                
+                                <h3><?php
+
+                                $qty = 0;
+                                $query1 = $conn->query("SELECT * FROM `donhang`");
+                                while ($row11 = $query1->fetch(PDO::FETCH_ASSOC)) {
+                                    $qty += 1;
+                                    //tính số đơn hàng hiện có
+                                }
+
                                 echo $qty;
                                 ?></h3>
                                 <hr>
                                 <a rel="nofollow"
-                                    href="<?php echo $site_domain?>/admin/pages/donhang/dsdonhang.php"><button
+                                    href="<?php echo $site_domain ?>/admin/pages/donhang/dsdonhang.php"><button
                                         class="btn btn-success btn-block">Xem Ngay</button></a>
                             </div>
                         </div>
@@ -243,19 +260,19 @@
                             title="Trao đổi người theo dõi profile để kiếm tiền.">
                             <div class="box-body text-center">
                                 <a>Danh Mục </a><br>
-                                <h3><?php 
-						
-                                $qty= 0;
-                                	$query1 = $conn->query("SELECT * FROM `danhmuc`");
-                                while($row11 = $query1->fetch(PDO::FETCH_ASSOC)){
-                                            $qty += 1;
-                                	    }
-                                
+                                <h3><?php
+
+                                $qty = 0;
+                                $query1 = $conn->query("SELECT * FROM `danhmuc`");
+                                while ($row11 = $query1->fetch(PDO::FETCH_ASSOC)) {
+                                    $qty += 1;
+                                }
+
                                 echo $qty;
                                 ?></h3>
                                 <hr>
                                 <a rel="nofollow"
-                                    href="<?php echo $site_domain?>/admin/pages/danhmuc/dsdanhmuc.php"><button
+                                    href="<?php echo $site_domain ?>/admin/pages/danhmuc/dsdanhmuc.php"><button
                                         class="btn btn-info btn-block">Xem Ngay</button></a>
                             </div>
                         </div>
@@ -266,19 +283,19 @@
                             title="Trao đổi người theo dõi profile để kiếm tiền.">
                             <div class="box-body text-center">
                                 <a>Số Giảm Giá </a><br>
-                                <h3><?php 
-						
-                                $qty= 0;
-                                	$query1 = $conn->query("SELECT * FROM `magiamgia`");
-                                while($row11 = $query1->fetch(PDO::FETCH_ASSOC)){
-                                            $qty += 1;
-                                	    }
-                                
+                                <h3><?php
+
+                                $qty = 0;
+                                $query1 = $conn->query("SELECT * FROM `magiamgia`");
+                                while ($row11 = $query1->fetch(PDO::FETCH_ASSOC)) {
+                                    $qty += 1;
+                                }
+
                                 echo $qty;
                                 ?></h3>
                                 <hr>
                                 <a rel="nofollow"
-                                    href="<?php echo $site_domain?>/admin/pages/giamgia/dsgiamgia.php"><button
+                                    href="<?php echo $site_domain ?>/admin/pages/giamgia/dsgiamgia.php"><button
                                         class="btn btn-primary btn-block">Xem Ngay</button></a>
                             </div>
                         </div>
@@ -289,19 +306,19 @@
                             title="Trao đổi người theo dõi profile để kiếm tiền.">
                             <div class="box-body text-center">
                                 <a>Tin Tức </a><br>
-                                <h3><?php 
-						
-                                $qty= 0;
-                                	$query1 = $conn->query("SELECT * FROM `tintuc`");
-                                while($row11 = $query1->fetch(PDO::FETCH_ASSOC)){
-                                            $qty += 1;
-                                	    }
-                                
+                                <h3><?php
+
+                                $qty = 0;
+                                $query1 = $conn->query("SELECT * FROM `tintuc`");
+                                while ($row11 = $query1->fetch(PDO::FETCH_ASSOC)) {
+                                    $qty += 1;
+                                }
+
                                 echo $qty;
                                 ?></h3>
                                 <hr>
                                 <a rel="nofollow"
-                                    href="<?php echo $site_domain?>/admin/pages/tintuc/dstintuc.php"><button
+                                    href="<?php echo $site_domain ?>/admin/pages/tintuc/dstintuc.php"><button
                                         class="btn btn-info btn-block">Xem Ngay</button></a>
                             </div>
                         </div>
@@ -312,7 +329,7 @@
 
                 </div>
 
-         
+
 
 
             </div>
